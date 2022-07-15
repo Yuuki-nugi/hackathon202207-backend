@@ -10,10 +10,66 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_14_154936) do
+ActiveRecord::Schema.define(version: 2022_07_15_174408) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "feeling_records", force: :cascade do |t|
+    t.bigint "theme_id"
+    t.bigint "work_id"
+    t.integer "degree", default: 0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["theme_id"], name: "index_feeling_records_on_theme_id"
+    t.index ["work_id"], name: "index_feeling_records_on_work_id"
+  end
+
+  create_table "feelings", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "work_id"
+    t.integer "degree", default: 0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_feelings_on_user_id"
+    t.index ["work_id"], name: "index_feelings_on_work_id"
+  end
+
+  create_table "participants", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "work_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_participants_on_user_id"
+    t.index ["work_id"], name: "index_participants_on_work_id"
+  end
+
+  create_table "progresses", force: :cascade do |t|
+    t.bigint "work_id"
+    t.bigint "theme_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["theme_id"], name: "index_progresses_on_theme_id"
+    t.index ["work_id"], name: "index_progresses_on_work_id"
+  end
+
+  create_table "theme_records", force: :cascade do |t|
+    t.bigint "theme_id"
+    t.bigint "work_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["theme_id"], name: "index_theme_records_on_theme_id"
+    t.index ["work_id"], name: "index_theme_records_on_work_id"
+  end
+
+  create_table "themes", force: :cascade do |t|
+    t.bigint "work_id"
+    t.string "title", null: false
+    t.string "result"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["work_id"], name: "index_themes_on_work_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "provider", default: "email", null: false
@@ -38,4 +94,24 @@ ActiveRecord::Schema.define(version: 2022_07_14_154936) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  create_table "works", force: :cascade do |t|
+    t.string "work_name", null: false
+    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_works_on_user_id"
+  end
+
+  add_foreign_key "feeling_records", "themes"
+  add_foreign_key "feeling_records", "works"
+  add_foreign_key "feelings", "users"
+  add_foreign_key "feelings", "works"
+  add_foreign_key "participants", "users"
+  add_foreign_key "participants", "works"
+  add_foreign_key "progresses", "themes"
+  add_foreign_key "progresses", "works"
+  add_foreign_key "theme_records", "themes"
+  add_foreign_key "theme_records", "works"
+  add_foreign_key "themes", "works"
+  add_foreign_key "works", "users"
 end

@@ -10,6 +10,14 @@ Rails.application.routes.draw do
       namespace :auth do
         resources :sessions, only: %i[index]
       end
+
+      resources :participants, only: %i[index create destroy]
+      resources :progresses, only: %i[index create destroy]
+      resources :themes
+      resources :works
+
+      patch '/feelings', to: 'feelings#update'
+
     end
   end
 end
