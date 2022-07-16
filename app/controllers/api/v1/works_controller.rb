@@ -16,7 +16,8 @@ class Api::V1::WorksController < ApplicationController
             feeling =  current_api_v1_user.feelings.create(work_id: work_id)
         end
         last_theme_id = work.progresses.last&.theme_id || nil
-        render json: { status: 200, work: work, themes: themes, sum_feeling: sum_feeling, feeling: feeling.degree, last_theme_id: last_theme_id }
+        number_of_participants = work.participants.length
+        render json: { status: 200, work: work, themes: themes, sum_feeling: sum_feeling, feeling: feeling.degree, last_theme_id: last_theme_id, number_of_participants: number_of_participants}
     end
 
     def new
