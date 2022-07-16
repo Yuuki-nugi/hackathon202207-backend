@@ -20,30 +20,33 @@ class Api::V1::WorksController < ApplicationController
         render json: { status: 200, work: work, themes: themes, sum_feeling: sum_feeling, feeling: feeling.degree, last_theme_id: last_theme_id, number_of_participants: number_of_participants}
     end
 
-    def new
-
-    end
-
     def create
-        name = params[:name]
+        name = "新しいワーク"
         if current_api_v1_user.works.create(work_name: name)
-            render json: { status: 200, message: "success"}
+            render json: { status: 200, works: current_api_v1_user.works}
         else
             render json: { status: 422, message: "fail"}
         end
     end
 
-    def edit
-
-    end
-
     def update
+        name = params[:name]
+        name ||= "新しいワーク"
+        id = params[:id]
+        work = current_api_v1_user.works.find(id)
+        if work
+            if work.update(work_name: name)
+                render json: { status: 200, work: current_api_v1_user.works}
+            else
+                render json: { status: 422, message: "fail"}
+            end
+        end
     end
 
     def destroy
-        work_id = params[:work_id]
+        work_id = params[:id]
         if current_api_v1_user.works.find(work_id).delete
-            render json: { status: 200, message: "success"}
+            render json: { status: 200, works: current_api_v1_user.works}
         else
             render json: { status: 422, message: "fail"}
         end

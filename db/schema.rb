@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_16_132626) do
+ActiveRecord::Schema.define(version: 2022_07_16_172219) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -91,13 +91,13 @@ ActiveRecord::Schema.define(version: 2022_07_16_132626) do
     t.index ["user_id"], name: "index_works_on_user_id"
   end
 
-  add_foreign_key "feeling_records", "works"
+  add_foreign_key "feeling_records", "works", on_delete: :cascade
   add_foreign_key "feelings", "users"
-  add_foreign_key "feelings", "works"
+  add_foreign_key "feelings", "works", on_delete: :cascade
   add_foreign_key "participants", "users"
-  add_foreign_key "participants", "works"
-  add_foreign_key "progresses", "themes"
-  add_foreign_key "progresses", "works"
-  add_foreign_key "themes", "works"
+  add_foreign_key "participants", "works", on_delete: :cascade
+  add_foreign_key "progresses", "themes", on_delete: :cascade
+  add_foreign_key "progresses", "works", on_delete: :cascade
+  add_foreign_key "themes", "works", on_delete: :cascade
   add_foreign_key "works", "users"
 end
