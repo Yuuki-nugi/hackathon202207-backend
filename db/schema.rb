@@ -10,18 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_16_072016) do
+ActiveRecord::Schema.define(version: 2022_07_16_132626) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "feeling_records", force: :cascade do |t|
-    t.bigint "theme_id"
     t.bigint "work_id"
     t.integer "degree", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["theme_id"], name: "index_feeling_records_on_theme_id"
     t.index ["work_id"], name: "index_feeling_records_on_work_id"
   end
 
@@ -93,7 +91,6 @@ ActiveRecord::Schema.define(version: 2022_07_16_072016) do
     t.index ["user_id"], name: "index_works_on_user_id"
   end
 
-  add_foreign_key "feeling_records", "themes"
   add_foreign_key "feeling_records", "works"
   add_foreign_key "feelings", "users"
   add_foreign_key "feelings", "works"

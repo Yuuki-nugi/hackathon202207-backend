@@ -1,4 +1,5 @@
 class Api::V1::ThemesController < ApplicationController
+    before_action :authenticate_api_v1_user!
     def index
     end
 

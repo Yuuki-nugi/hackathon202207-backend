@@ -3,16 +3,20 @@ class Api::V1::FeelingsController < ApplicationController
 
     def update
         work_id = params[:work_id]
-        degree = params[:degree]
-        work = current_api_v1_user.works.find(work_id)
-        feeling = work.feelings.find_by(user_id: current_api_v1_user.id)   
+        is_plus = params[:is_plus]
+        work = Work.find(work_id)
+        feeling = work.feelings.find_by(user_id: current_api_v1_user.id)
         if feeling
-           feeling.degree = degree
+            if is_plus == true
+                feeling.update(degree: feeling.degree + 1)
+            else
+                feeling.update(degree: feeling.degree - 1)
+            end
         else
-            work.feelings.create(user_id: current_api_v1_user.id, degree: degree)
+            feeling =  current_api_v1_user.feelings.create(work_id: work_id)
         end
-
-        sum_degree = work.feelings.where(created_at: Time.zone.now - 5.second..Time.zone.now).all.sum(:degree)
-        render json: { status: 200, sum_degree: sum_degree }
+        sum_feeling = work.feelings.sum(:degree)
+        render json: { status: 200, sum_feeling: sum_feeling, feeling: feeling.degree }
     end
 end
+# .where(created_at: Time.zone.now - 5.second..Time.zone.now)

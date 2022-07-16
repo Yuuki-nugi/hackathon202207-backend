@@ -10,9 +10,13 @@ class Api::V1::WorksController < ApplicationController
         work_id = params[:id]
         work = Work.find(work_id)
         themes = work.themes.all
-        sum_degree = work.feelings.where(created_at: Time.zone.now - 5.second..Time.zone.now).all.sum(:degree)
+        sum_feeling = work.feelings.where(created_at: Time.zone.now - 5.second..Time.zone.now).all.sum(:degree)
+        feeling = work.feelings.find_by(user_id: current_api_v1_user.id)
+        if !feeling
+            feeling =  current_api_v1_user.feelings.create(work_id: work_id)
+        end
         last_theme_id = work.progresses.last&.theme_id || nil
-        render json: { status: 200, work: work, themes: themes, sum_degree: sum_degree, last_theme_id: last_theme_id }
+        render json: { status: 200, work: work, themes: themes, sum_feeling: sum_feeling, feeling: feeling.degree, last_theme_id: last_theme_id }
     end
 
     def new
