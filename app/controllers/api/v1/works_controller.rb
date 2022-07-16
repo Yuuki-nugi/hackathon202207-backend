@@ -2,7 +2,7 @@ class Api::V1::WorksController < ApplicationController
     before_action :authenticate_api_v1_user!
 
     def index
-        works = current_api_v1_user.works
+        works = Work.joins(:participants).where("participants.user_id = ?", current_api_v1_user.id).all
         render json: { status: 200, works: works }
     end
 
