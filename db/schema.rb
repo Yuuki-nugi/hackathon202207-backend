@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_15_174408) do
+ActiveRecord::Schema.define(version: 2022_07_15_164933) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,15 +51,6 @@ ActiveRecord::Schema.define(version: 2022_07_15_174408) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["theme_id"], name: "index_progresses_on_theme_id"
     t.index ["work_id"], name: "index_progresses_on_work_id"
-  end
-
-  create_table "theme_records", force: :cascade do |t|
-    t.bigint "theme_id"
-    t.bigint "work_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["theme_id"], name: "index_theme_records_on_theme_id"
-    t.index ["work_id"], name: "index_theme_records_on_work_id"
   end
 
   create_table "themes", force: :cascade do |t|
@@ -110,8 +101,6 @@ ActiveRecord::Schema.define(version: 2022_07_15_174408) do
   add_foreign_key "participants", "works"
   add_foreign_key "progresses", "themes"
   add_foreign_key "progresses", "works"
-  add_foreign_key "theme_records", "themes"
-  add_foreign_key "theme_records", "works"
   add_foreign_key "themes", "works"
   add_foreign_key "works", "users"
 end

@@ -1,7 +1,6 @@
 class Theme < ApplicationRecord
-    has_many :progress
-    has_many :feeling_records
-    has_many :theme_records
+    has_many :progress, dependent: :destroy
+    has_many :feeling_records, dependent: :destroy
 
     belongs_to :work
 end

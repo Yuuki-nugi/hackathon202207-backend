@@ -11,7 +11,7 @@ class Api::V1::WorksController < ApplicationController
         work = Work.find(work_id)
         themes = work.themes.all
         sum_degree = work.feelings.where(created_at: Time.zone.now - 5.second..Time.zone.now).all.sum(:degree)
-        last_theme_id = work.theme_records.last&.theme_id || nil
+        last_theme_id = work.progresses.last&.theme_id || nil
         render json: { status: 200, work: work, themes: themes, sum_degree: sum_degree, last_theme_id: last_theme_id }
     end
 

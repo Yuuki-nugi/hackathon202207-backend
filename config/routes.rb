@@ -17,6 +17,7 @@ Rails.application.routes.draw do
       resources :works
 
       patch '/feelings', to: 'feelings#update'
+      post '/progresses', to: 'progresses#create'
 
     end
   end
