@@ -10,4 +10,5 @@ class User < ActiveRecord::Base
   has_many :works
   has_many :participants
   has_many :feelings
+  has_many :comments, dependent: :destroy
 end

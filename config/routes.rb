@@ -13,6 +13,7 @@ Rails.application.routes.draw do
 
       resources :participants, only: %i[index create destroy]
       resources :progresses, only: %i[index create destroy]
+      resources :comments, only: %i[index create]
       resources :themes
       resources :works
 
