@@ -22,7 +22,8 @@ class Api::V1::WorksController < ApplicationController
 
     def create
         name = "新しいワーク"
-        if current_api_v1_user.works.create(work_name: name)
+        if work = current_api_v1_user.works.create(work_name: name)
+            current_api_v1_user.participants.create(work_id: work.id)
             render json: { status: 200, works: current_api_v1_user.works}
         else
             render json: { status: 422, message: "fail"}
