@@ -3,6 +3,6 @@ class Comment < ApplicationRecord
     belongs_to :work
 
     after_commit do
-        ActionCable.server.broadcast("works_#{self.work_id}", comments: self)
+        ActionCable.server.broadcast("works_#{self.work_id}", comment: self)
     end
 end
